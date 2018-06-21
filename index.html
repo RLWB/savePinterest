@@ -1,10 +1,43 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <title>Page Title</title>
 </head>
+
 <body>
-    <webview style="width: 800px; height: 600px;" src="https://pinterest.com/" autosize nodeintegration plugins></webview>
+    <webview id="webview" style="width: 100%; height: 1200px;" src="https://pinterest.com/" autosize nodeintegration plugins></webview>
+    <button onclick="loadHosts()">Load hosts</button>
+    <button onclick="getCon()">Get html</button>
+    <button onclick="openSS()">Open SS</button>
+    <div id="hosts"></div>
 </body>
+<script>
+    const fs = require('fs');
+    const child = require('child_process').execFile;
+    var executablePath = './Shadowsocks.exe';
+
+    function openSS() {
+        child(executablePath, function (err, data) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            console.log(data.toString());
+        })
+    }
+
+    function loadHosts() {
+        console.log(111)
+        fs.readFile('/Windows/system32/drivers/etc/hosts', 'utf8', (err, data) => {
+            document.querySelector('#hosts').innerHTML = data;
+        })
+    }
+
+    function getCon() {
+        console.log(document.getElementById('webview').getWebContents());
+    }
+</script>
+
 </html>
